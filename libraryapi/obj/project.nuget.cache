@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "VGQiZHm8Ax+dAXXV2PM/WdjSTHMM6XH9Kfji+9zAnJvuhF5uWE7Oj/9u54CiHD7X/+H65QEKI7vM+yolhElOvA==",
+  "dgSpecHash": "055VKHM4hjzqho/pc1R8QrkMfbyDGS2wKbrUq/kX9J39seJAfggk0CDPUw7GtcWzQMaYYVVEKXGZ9URWl73ZDA==",
   "success": true,
-  "projectFilePath": "F:\\projects\\netcore\\libraryapi\\libraryapi.csproj",
+  "projectFilePath": "F:\\projects\\netcore\\library\\libraryapi\\libraryapi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Rahman\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Rahman\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

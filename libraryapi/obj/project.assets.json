@@ -2923,11 +2923,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\projects\\netcore\\libraryapi\\libraryapi.csproj",
+      "projectUniqueName": "F:\\projects\\netcore\\library\\libraryapi\\libraryapi.csproj",
       "projectName": "libraryapi",
-      "projectPath": "F:\\projects\\netcore\\libraryapi\\libraryapi.csproj",
+      "projectPath": "F:\\projects\\netcore\\library\\libraryapi\\libraryapi.csproj",
       "packagesPath": "C:\\Users\\Rahman\\.nuget\\packages\\",
-      "outputPath": "F:\\projects\\netcore\\libraryapi\\obj\\",
+      "outputPath": "F:\\projects\\netcore\\library\\libraryapi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Rahman\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -2950,11 +2950,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
