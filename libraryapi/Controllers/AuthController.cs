@@ -1,13 +1,42 @@
-using Entities;
+using AutoMapper;
+using Entities.DataTransferObjects;
+using libraryapi.Entities.Models;
+using libraryapi.Helpers;
+using libraryapi.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace libraryapi.Controllers;
 
-public class AuthController
+[Route("api/[controller]")]
+[ApiController]
+public class AuthController : Controller
 {
-    private  RepositoryContext _repositoryContext;
+    private  readonly IRepositoryWrapper _repository;
+    private IMapper _mapper;
 
-    public AuthController(RepositoryContext repositoryContext)
+    public AuthController(IRepositoryWrapper repository, IMapper mapper)
     {
-        _repositoryContext = repositoryContext;
+        _repository = repository;
+        _mapper = mapper;
+    }
+    
+    //Login method
+    [AllowAnonymous]
+    [HttpPost]
+    public IActionResult Login([FromBody] UserDtoForLogin user)
+    {
+        if (user == null || string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.Password))
+            return BadRequest("Invalid request");
+        try
+        {
+            var userEntity = _mapper.Map<User>(user);
+            var userResult = _repository.User.GetUserAccount(userEntity);
+            return Ok(userResult);
+        }
+        catch (Exception e)
+        {
+            throw;
+        }
     }
 }

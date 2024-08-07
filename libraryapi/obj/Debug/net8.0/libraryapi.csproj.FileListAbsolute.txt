@@ -71,3 +71,4 @@ F:\projects\netcore\library\libraryapi\obj\Debug\net8.0\refint\libraryapi.dll
 F:\projects\netcore\library\libraryapi\obj\Debug\net8.0\libraryapi.pdb
 F:\projects\netcore\library\libraryapi\obj\Debug\net8.0\libraryapi.genruntimeconfig.cache
 F:\projects\netcore\library\libraryapi\obj\Debug\net8.0\ref\libraryapi.dll
+F:\projects\netcore\library\libraryapi\bin\Debug\net8.0\AutoMapper.dll
