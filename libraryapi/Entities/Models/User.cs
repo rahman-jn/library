@@ -12,10 +12,10 @@ public class User
     public int Id { get; set; }
     
     [Required]
-    public string Name { get; set; }
+    public string FirstName { get; set; }
     
     [Required]
-    public string lastName { get; set; }
+    public string LastName { get; set; }
     
     [Required]
     [EmailAddress]

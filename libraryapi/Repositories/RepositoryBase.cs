@@ -18,6 +18,28 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T: class
     {
         throw new NotImplementedException();
     }
-    public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression) =>
-        RepositoryContext.Set<T>().Where(expression).AsNoTracking();
+    public IQueryable<TResult> FindByCondition<TResult>(
+        Expression<Func<T, bool>> expression,
+        Expression<Func<T, TResult>> selector,
+        params Expression<Func<T, object>>[] includes)
+    {
+        // Start with the base query
+        var query = RepositoryContext.Set<T>()
+            .Where(expression)
+            .AsNoTracking();
+
+        // Apply each include expression to the query
+        if (includes != null)
+        {
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+        }
+
+        // Apply the selector for projection
+        return query.Select(selector);
+    }
+
+
 }

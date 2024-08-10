@@ -16,8 +16,15 @@ var config = builder.Configuration;
 
 //Connect to SQl Server database
 var connectionString = config.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<RepositoryContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionString, sqlServerOptionsAction: sqlOptions =>
+    {
+        sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,               // Maximum number of retry attempts
+            maxRetryDelay: TimeSpan.FromSeconds(30),  // Max delay between retries
+            errorNumbersToAdd: null);        // SQL error numbers to trigger a retry
+    }));
 
 builder.Services.ConfigureRepositoryWrapper();
 builder.Services.AddAutoMapper(typeof(Program));
@@ -60,7 +67,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthentication();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 var summaries = new[]
 {

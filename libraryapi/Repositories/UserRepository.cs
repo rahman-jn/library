@@ -1,4 +1,5 @@
 using Entities;
+using Entities.DataTransferObjects;
 using libraryapi.Entities.Models;
 using libraryapi.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -13,11 +14,34 @@ public class UserRepository : RepositoryBase<User> , IUserRepository
         
     }
 
-    public User GetUserAccount(User user)
+    public UserDto GetUserAccount(User user)
     {
-        return FindByCondition(usr => usr.Email.Equals(user.Email) && usr.Password.Equals(user.Password))
-            .Include(ac => ac.Role)
-            .FirstOrDefault();
+        // Step 1: Create the query
+        var query = FindByCondition(
+            usr => usr.Email.Equals(user.Email) && usr.Password.Equals(user.Password),
+            usr => new UserDto
+            {
+                Email = usr.Email,
+                FirstName = usr.FirstName,
+                LastName = usr.LastName,
+                Role = usr.Role
+            },
+            usr => usr.Role);  // Including the Role navigation property
+
+        // Step 2: View the SQL query
+        string sql = query.ToQueryString();
+        Console.WriteLine(sql);  // Or log it using a logger
+
+        // Step 3: Execute the query to get the result
+        return query.FirstOrDefault();
+    }
+
+
+
+    
+    public IEnumerable<User> GetAllUsers()
+    {
+        return FindAll().ToList();
     }
     public User AuthenticateUser(string userName, string password)
     {
