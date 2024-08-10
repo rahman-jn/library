@@ -41,6 +41,7 @@ public class UserController : Controller
         try
         {
             var userEntity = _mapper.Map<User>(user);
+            userEntity.RoleId = 1;
             _repository.User.CreateUser(userEntity);
             _repository.Save();
             var createdUser = _mapper.Map<UserDto>(userEntity);
