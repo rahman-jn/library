@@ -41,5 +41,5 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T: class
         return query.Select(selector);
     }
 
-
+    public void Create(T entity) => RepositoryContext.Set<T>().Add(entity);
 }

@@ -31,8 +31,8 @@ public class AuthController : Controller
         try
         {
             var userEntity = _mapper.Map<User>(user);
-            var userResult = _repository.User.GetUserAccount(userEntity);
-            return Ok(userResult);
+            var authResult = _repository.Auth.GetUserAccount(userEntity);
+            return Ok(authResult);
         }
         catch (Exception e)
         {

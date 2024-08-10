@@ -8,6 +8,7 @@ public class RepositoryWrapper : IRepositoryWrapper
     private RepositoryContext _repoContext;
     private IUserRepository _user;
     private IRoleRepository _role;
+    private IAuthRepositiry _auth;
 
     public RepositoryWrapper(RepositoryContext repositoryContext)
     {
@@ -38,5 +39,22 @@ public class RepositoryWrapper : IRepositoryWrapper
 
             return _role;
         }
+    }
+    
+    public IAuthRepositiry Auth
+    {
+        get
+        {
+            if (_auth == null)
+            {
+                _auth = new AuthRepository(_repoContext);
+            }
+            return _auth;
+        }
+    }
+
+    public void Save()
+    {
+        _repoContext.SaveChanges();
     }
 }

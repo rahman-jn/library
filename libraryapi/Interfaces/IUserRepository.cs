@@ -5,6 +5,8 @@ namespace libraryapi.Interfaces;
 
 public interface IUserRepository:IRepositoryBase<User>
 {
-    UserDto  GetUserAccount(User user);
     IEnumerable<User> GetAllUsers();
+
+    void CreateUser(User user);
+    UserDto GetUserById(int userId);
 }

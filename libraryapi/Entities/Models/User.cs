@@ -21,10 +21,7 @@ public class User
     [EmailAddress]
     public string Email { get; set; }
     
-    [Required]
     [Column("PasswordHash", TypeName = "varchar(256)")]
     public string Password { get; set; }
-    
-    [Required]
     public Role Role { get; set; }
 }
