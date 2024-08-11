@@ -16,7 +16,7 @@ public class UserRepository : RepositoryBase<User> , IUserRepository
 
     public UserDto GetUserById(int userId)
     {
-        return FindByCondition(
+        var query = FindByCondition(
             usr => usr.Id.Equals(userId),
             usr => new UserDto
             {
@@ -24,8 +24,14 @@ public class UserRepository : RepositoryBase<User> , IUserRepository
                 FirstName = usr.FirstName,
                 LastName = usr.LastName,
                 Role = usr.Role
-            }
-            ).FirstOrDefault();
+            },
+            usr => usr.Role); 
+        
+        //View the SQL query
+        string sql = query.ToQueryString();
+        Console.WriteLine(sql);  
+            
+            return query.FirstOrDefault();
     }
     public IEnumerable<User> GetAllUsers()
     {

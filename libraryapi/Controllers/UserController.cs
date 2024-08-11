@@ -1,6 +1,7 @@
 using AutoMapper;
 using Entities.DataTransferObjects;
 using libraryapi.Entities.Models;
+using libraryapi.Helpers;
 using libraryapi.Interfaces;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -42,10 +43,12 @@ public class UserController : Controller
         {
             var userEntity = _mapper.Map<User>(user);
             userEntity.RoleId = 1;
+            userEntity.Password = AuthHelper.Hash(userEntity.Password);
             _repository.User.CreateUser(userEntity);
             _repository.Save();
             var createdUser = _mapper.Map<UserDto>(userEntity);
-            return CreatedAtRoute("UserById", new {Id = createdUser.Id}, createdUser);
+            //return Ok();
+            return CreatedAtRoute("UserById", new {userId = createdUser.Id}, createdUser);
         }
         catch (Exception e)
         {
