@@ -1,6 +1,7 @@
 using System.Text;
 using Entities;
 using Extensions;
+using libraryapi.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -13,6 +14,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var config = builder.Configuration;
+
+builder.Services.AddSingleton<AuthHelper>();
 
 //Connect to SQl Server database
 var connectionString = config.GetConnectionString("DefaultConnection");
@@ -44,7 +47,7 @@ builder.Services.AddAuthentication(cfg => {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(
             Encoding.UTF8
-                .GetBytes(configuration["ApplicationSettings:JWT_Secret"])
+                .GetBytes(configuration["Auth:JWT_Secret"])
         ),
         ValidateIssuer = false,
         ValidateAudience = false,

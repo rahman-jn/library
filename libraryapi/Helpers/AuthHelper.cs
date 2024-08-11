@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Entities.DataTransferObjects;
 using libraryapi.Entities.Models;
 using Microsoft.IdentityModel.Tokens;
 
@@ -9,7 +10,7 @@ namespace libraryapi.Helpers;
 
 public class AuthHelper
 {
-    private readonly IConfiguration _configuration;
+    private  static IConfiguration _configuration;
 
     public AuthHelper(IConfiguration configuration)
     {
@@ -90,21 +91,51 @@ public class AuthHelper
 
     public string GenerateJWTToken(User user)
     {
+        // Claims
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.FirstName),
         };
-        var jwtToken = new JwtSecurityToken(
-            claims: claims,
-            notBefore: DateTime.UtcNow,
-            expires: DateTime.UtcNow.AddDays(30),
-            signingCredentials: new SigningCredentials(
-                new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(_configuration["ApplicationSettings:JWT_Secret"])
-                ),
-                SecurityAlgorithms.HmacSha256Signature)
-        );
-        return new JwtSecurityTokenHandler().WriteToken(jwtToken);
+
+        // Key - ensure it's at least 32 characters long
+        var secretKey = Encoding.UTF8.GetBytes(_configuration["Auth:JWT_Secret"]);
+
+        try
+        {
+            // Create the signing credentials
+            var signingCredentials = new SigningCredentials(
+                new SymmetricSecurityKey(secretKey),
+                SecurityAlgorithms.HmacSha256
+            );
+
+            // Create the token
+            var jwtToken = new JwtSecurityToken(
+                //issuer: "",  
+                //audience: "",  
+                claims: claims,
+                notBefore: DateTime.UtcNow,
+                expires: DateTime.UtcNow.AddDays(30),
+                signingCredentials: signingCredentials
+            );
+
+            // Generate the JWT token
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.WriteToken(jwtToken);
+
+            // Check if token is null
+            if (token == null)
+            {
+                throw new Exception("Failed to generate JWT token.");
+            }
+
+            return token;
+        }
+        catch (Exception ex)
+        {
+            // Log the exception or handle it as necessary
+            Console.WriteLine($"Error generating JWT token: {ex.Message}");
+            return null;  // or throw an exception
+        }
     }
 }

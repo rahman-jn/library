@@ -14,11 +14,13 @@ public class AuthController : Controller
 {
     private  readonly IRepositoryWrapper _repository;
     private IMapper _mapper;
+    private AuthHelper _authHelper;
 
-    public AuthController(IRepositoryWrapper repository, IMapper mapper)
+    public AuthController(IRepositoryWrapper repository, IMapper mapper, AuthHelper authHelper)
     {
         _repository = repository;
         _mapper = mapper;
+        _authHelper = authHelper;
     }
     
     //Login method
@@ -32,7 +34,22 @@ public class AuthController : Controller
         {
             var userEntity = _mapper.Map<User>(user);
             var authResult = _repository.Auth.GetUserAccount(userEntity);
-            return Ok(authResult);
+            if (authResult != null)
+            {
+                var authUserEntity = _mapper.Map<User>(authResult);
+                var jwtToken = _authHelper.GenerateJWTToken(authUserEntity);
+                Console.WriteLine(jwtToken);
+                return Ok(authResult);
+            }
+            else
+            {
+                // If authentication fails, log the event and return an unauthorized response
+                Console.WriteLine("Authentication failed.");
+
+                // Example return (assuming this is in a controller action)
+                return Unauthorized(new { message = "Invalid credentials" });
+            }
+            
         }
         catch (Exception e)
         {

@@ -15,11 +15,11 @@ public class AuthRepository :  RepositoryBase<User>, IAuthRepositiry
     
     public UserDto GetUserAccount(User user)
     {
-        // Step 1: Retrieve the user based on the email
         var query = FindByCondition(
             usr => usr.Email.Equals(user.Email),
             usr => new UserDto
             {
+                Id = usr.Id,
                 Email = usr.Email,
                 FirstName = usr.FirstName,
                 LastName = usr.LastName,
@@ -30,14 +30,11 @@ public class AuthRepository :  RepositoryBase<User>, IAuthRepositiry
 
         var foundUser = query.FirstOrDefault();
 
-        // Step 2: If the user exists, verify the password
         if (foundUser != null && AuthHelper.Verify(user.Password, foundUser.Password))
         {
             // If the password is correct, map the user entity to a UserDto
-            return query.FirstOrDefault();
+            return foundUser;
         }
-
-        // Step 3: If the user was not found or the password is incorrect, return null (or handle as needed)
         return null;
     }
 
