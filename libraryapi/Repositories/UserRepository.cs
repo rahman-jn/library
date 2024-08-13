@@ -33,6 +33,24 @@ public class UserRepository : RepositoryBase<User> , IUserRepository
             
             return query.FirstOrDefault();
     }
+    
+    public UserDto GetUserByEmail(string email)
+    {
+        var query = FindByCondition(
+            usr => usr.Email.Equals(email),
+            usr => new UserDto
+            {
+                Id = usr.Id,
+                Email = usr.Email,
+                FirstName = usr.FirstName,
+                LastName = usr.LastName,
+                Password = usr.Password,
+                Role = usr.Role
+            },
+            usr => usr.Role); 
+            
+        return query.FirstOrDefault();
+    }
     public IEnumerable<User> GetAllUsers()
     {
         return FindAll().ToList();
@@ -42,4 +60,5 @@ public class UserRepository : RepositoryBase<User> , IUserRepository
     {
         Create(user);
     }
+    
 }

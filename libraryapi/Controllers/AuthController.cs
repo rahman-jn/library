@@ -15,6 +15,7 @@ public class AuthController : Controller
     private  readonly IRepositoryWrapper _repository;
     private IMapper _mapper;
     private AuthHelper _authHelper;
+    private IConfiguration _configuration;
 
     public AuthController(IRepositoryWrapper repository, IMapper mapper, AuthHelper authHelper)
     {
@@ -33,11 +34,23 @@ public class AuthController : Controller
         try
         {
             var userEntity = _mapper.Map<User>(user);
-            var authResult = _repository.Auth.GetUserAccount(userEntity);
+            var foundUser = _repository.User.GetUserByEmail(user.Email);
+            var authResult = _repository.Auth.GetUserAccount(userEntity, foundUser);
             if (authResult != null)
             {
                 var authUserEntity = _mapper.Map<User>(authResult);
+                //Generate Jwt token
                 var jwtToken = _authHelper.GenerateJWTToken(authUserEntity);
+                //Save generated token to database
+                var jwtObj = new Auth{
+                    Id = Guid.NewGuid(),
+                    Token = jwtToken,
+                    UserId = authUserEntity.Id,
+                    ExpiresAt = DateTime.Now.AddHours(1),
+                    //User = authUserEntity
+                    };
+                _repository.Auth.CreateJwt(jwtObj);
+                _repository.Save();
                 Console.WriteLine(jwtToken);
                 return Ok(authResult);
             }

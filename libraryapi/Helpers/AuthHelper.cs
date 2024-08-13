@@ -115,7 +115,7 @@ public class AuthHelper
                 //audience: "",  
                 claims: claims,
                 notBefore: DateTime.UtcNow,
-                expires: DateTime.UtcNow.AddDays(30),
+                expires: DateTime.UtcNow.AddHours(int.Parse(_configuration["Auth:JWT_Expire_At"])),
                 signingCredentials: signingCredentials
             );
 

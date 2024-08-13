@@ -42,6 +42,7 @@ public class UserController : Controller
         try
         {
             var userEntity = _mapper.Map<User>(user);
+            userEntity.Id = Guid.NewGuid();
             userEntity.RoleId = 1;
             userEntity.Password = AuthHelper.Hash(userEntity.Password);
             _repository.User.CreateUser(userEntity);
@@ -56,6 +57,12 @@ public class UserController : Controller
             throw;
         }
 
+    }
+
+    [HttpGet]
+    public IEnumerable<User> GetAllUsers()
+    {
+        return _repository.User.GetAllUsers();
     }
     
 }
