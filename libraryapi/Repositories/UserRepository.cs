@@ -23,7 +23,6 @@ public class UserRepository : RepositoryBase<User> , IUserRepository
                 Email = usr.Email,
                 FirstName = usr.FirstName,
                 LastName = usr.LastName,
-                Role = usr.Role
             },
             usr => usr.Role); 
         
@@ -34,18 +33,18 @@ public class UserRepository : RepositoryBase<User> , IUserRepository
             return query.FirstOrDefault();
     }
     
-    public UserDto GetUserByEmail(string email)
+    public AuthUserDto GetUserByEmail(string email)
     {
         var query = FindByCondition(
             usr => usr.Email.Equals(email),
-            usr => new UserDto
+            usr => new AuthUserDto
             {
                 Id = usr.Id,
                 Email = usr.Email,
                 FirstName = usr.FirstName,
                 LastName = usr.LastName,
                 Password = usr.Password,
-                Role = usr.Role
+                RoleId = usr.RoleId
             },
             usr => usr.Role); 
             

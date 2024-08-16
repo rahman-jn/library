@@ -14,7 +14,7 @@ public class AuthRepository :  RepositoryBase<Auth>, IAuthRepositiry
         
     }
     
-    public UserDto GetUserAccount(User user, UserDto foundUser)
+    public UserDto GetUserAccount(User user, AuthUserDto foundUser)
     {
 
         if (foundUser != null && AuthHelper.Verify(user.Password, foundUser.Password))
@@ -26,7 +26,7 @@ public class AuthRepository :  RepositoryBase<Auth>, IAuthRepositiry
                 Email = foundUser.Email,
                 FirstName = foundUser.FirstName,
                 LastName = foundUser.LastName,
-                Role = foundUser.Role
+                RoleId = foundUser.RoleId
             };
         }
         return null;

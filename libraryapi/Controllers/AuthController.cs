@@ -47,19 +47,14 @@ public class AuthController : Controller
                     Token = jwtToken,
                     UserId = authUserEntity.Id,
                     ExpiresAt = DateTime.Now.AddHours(1),
-                    //User = authUserEntity
                     };
                 _repository.Auth.CreateJwt(jwtObj);
                 _repository.Save();
-                Console.WriteLine(jwtToken);
                 return Ok(authResult);
             }
             else
             {
-                // If authentication fails, log the event and return an unauthorized response
                 Console.WriteLine("Authentication failed.");
-
-                // Example return (assuming this is in a controller action)
                 return Unauthorized(new { message = "Invalid credentials" });
             }
             

@@ -5,7 +5,7 @@ namespace libraryapi.Interfaces;
 
 public interface IAuthRepositiry : IRepositoryBase<Auth>
 {
-    public UserDto GetUserAccount(User user, UserDto foundUser);
+    public UserDto GetUserAccount(User user, AuthUserDto foundUser);
     public void CreateJwt(Auth auth);
 
 }
