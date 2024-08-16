@@ -9,6 +9,7 @@ public class RepositoryWrapper : IRepositoryWrapper
     private IUserRepository _user;
     private IRoleRepository _role;
     private IAuthRepositiry _auth;
+    public ICategoryRepository _category;
 
     public RepositoryWrapper(RepositoryContext repositoryContext)
     {
@@ -50,6 +51,19 @@ public class RepositoryWrapper : IRepositoryWrapper
                 _auth = new AuthRepository(_repoContext);
             }
             return _auth;
+        }
+    }
+    
+    public ICategoryRepository Category
+    {
+        get
+        {
+            if (_category == null)
+            {
+                _category = new CategoryRepository(_repoContext);
+            }
+
+            return _category;
         }
     }
 
