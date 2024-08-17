@@ -9,5 +9,5 @@ public interface IUserRepository:IRepositoryBase<User>
 
     void CreateUser(User user);
     UserDto GetUserById(int userId);
-    AuthUserDto GetUserByEmail(string email);
+    User GetUserByEmail(string email);
 }

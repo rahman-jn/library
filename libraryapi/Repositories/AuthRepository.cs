@@ -14,7 +14,7 @@ public class AuthRepository :  RepositoryBase<Auth>, IAuthRepositiry
         
     }
     
-    public UserDto GetUserAccount(User user, AuthUserDto foundUser)
+    public UserDto GetUserAccount(User user, User foundUser)
     {
 
         if (foundUser != null && AuthHelper.Verify(user.Password, foundUser.Password))

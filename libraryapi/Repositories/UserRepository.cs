@@ -33,11 +33,11 @@ public class UserRepository : RepositoryBase<User> , IUserRepository
             return query.FirstOrDefault();
     }
     
-    public AuthUserDto GetUserByEmail(string email)
+    public User GetUserByEmail(string email)
     {
         var query = FindByCondition(
             usr => usr.Email.Equals(email),
-            usr => new AuthUserDto
+            usr => new User
             {
                 Id = usr.Id,
                 Email = usr.Email,
