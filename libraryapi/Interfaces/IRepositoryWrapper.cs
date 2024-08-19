@@ -6,5 +6,6 @@ public interface IRepositoryWrapper
     IRoleRepository Role { get; }
     IAuthRepositiry Auth { get; }
     ICategoryRepository Category { get; }
+    IAuthorRepository Author { get; }
     void Save();
 }

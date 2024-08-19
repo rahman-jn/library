@@ -16,6 +16,7 @@ namespace Entities
         public DbSet<Role>? Roles { get; set; }
         public DbSet<Auth>? Auths { get; set; }
         public DbSet<Category>? Categories { get; set; }
+        public DbSet<Author>? Authors { get; set; }
     }
 }
 

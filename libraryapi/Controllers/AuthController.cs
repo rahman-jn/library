@@ -50,6 +50,7 @@ public class AuthController : Controller
                     };
                 _repository.Auth.CreateJwt(jwtObj);
                 _repository.Save();
+                authResult.Token = jwtToken;
                 return Ok(authResult);
             }
             else
