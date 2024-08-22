@@ -62,13 +62,12 @@ public class UserController : Controller
     [HttpGet]
     public IActionResult GetAllUsers()
     {
-        //Get Authorized user role id
-        var roleClaim = User.Claims.FirstOrDefault(c => c.Type == "RoleId");
+        var authUser = _repository.Auth.AuthenticateUser();
         
-        //Only admin role can access the users list
-        if (roleClaim == null || !int.TryParse(roleClaim.Value, out int roleId) || roleId != 2)
+        //Only admin role users has access to users list
+        if(authUser.RoleId != 2)
             return Forbid();
-            
+
         IEnumerable<User> users =  _repository.User.GetAllUsers();
         return Ok(users);
     }

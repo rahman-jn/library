@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using System.Security.Claims;
 using Entities;
 using Entities.DataTransferObjects;
 using libraryapi.Entities.Models;
@@ -9,9 +10,11 @@ namespace libraryapi.Repositories;
 
 public class AuthRepository :  RepositoryBase<Auth>, IAuthRepositiry
 {
-    public AuthRepository(RepositoryContext repositoryContext) : base(repositoryContext)
+    private readonly ClaimsPrincipal _user;
+
+    public AuthRepository(RepositoryContext repositoryContext, IHttpContextAccessor httpContextAccessor) : base(repositoryContext)
     {
-        
+        _user = httpContextAccessor.HttpContext?.User;
     }
     
     public UserDto GetUserAccount(User user, User foundUser)
@@ -48,4 +51,23 @@ public class AuthRepository :  RepositoryBase<Auth>, IAuthRepositiry
         throw new NotImplementedException();
     }
 
+    //Get Jwt token, validate it and ectract authenticated user info from token.
+    public UserDto AuthenticateUser()
+    {
+        var roleIdClaim = _user?.FindFirst("RoleId")?.Value;
+        var userIdClaim = _user?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        
+        var fullName = _user?.FindFirst(ClaimTypes.Name)?.Value;
+        var email = _user?.FindFirst("Email")?.Value;
+        var roleId = int.TryParse(roleIdClaim, out int claimedRoleId) ? claimedRoleId : 0;
+        var userId = Guid.TryParse(userIdClaim, out Guid claimedUserId) ? claimedUserId : Guid.Empty;
+
+        return new UserDto
+        {
+            Id = userId,
+            FullName = fullName,
+            Email = email,
+            RoleId = roleId,
+        };
+    }
 }

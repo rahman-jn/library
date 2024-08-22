@@ -95,8 +95,9 @@ public class AuthHelper
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.FirstName),
-            new Claim("RoleId", user.RoleId.ToString())
+            new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName),
+            new Claim("RoleId", user.RoleId.ToString()),
+            new Claim("Email", user.Email)
         };
 
         // Key - ensure it's at least 32 characters long

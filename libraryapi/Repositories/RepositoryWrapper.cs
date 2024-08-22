@@ -12,6 +12,7 @@ public class RepositoryWrapper : IRepositoryWrapper
     public ICategoryRepository _category;
     public IAuthorRepository _author;
     public IBookRepository _book;
+    public IHttpContextAccessor _httpContextAccessor;
 
     public RepositoryWrapper(RepositoryContext repositoryContext)
     {
@@ -50,7 +51,7 @@ public class RepositoryWrapper : IRepositoryWrapper
         {
             if (_auth == null)
             {
-                _auth = new AuthRepository(_repoContext);
+                _auth = new AuthRepository(_repoContext, _httpContextAccessor);
             }
             return _auth;
         }

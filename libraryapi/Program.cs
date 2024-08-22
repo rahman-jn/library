@@ -56,6 +56,7 @@ builder.Services.AddAuthentication(cfg => {
 });
 
 builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor();
 
 // CORS Configuration (Optional, depending on Angular)
 builder.Services.AddCors(options =>
