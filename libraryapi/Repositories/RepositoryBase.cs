@@ -14,10 +14,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T: class
         RepositoryContext = repositoryContext;
     }
     
-    public IQueryable<T> FindAll()
-    {
-        throw new NotImplementedException();
-    }
+    public IQueryable<T> FindAll() => RepositoryContext.Set<T>().AsNoTracking();
     public IQueryable<TResult> FindByCondition<TResult>(
         Expression<Func<T, bool>> expression,
         Expression<Func<T, TResult>> selector,

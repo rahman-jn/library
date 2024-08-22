@@ -9,15 +9,16 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Configuration
 var config = builder.Configuration;
 
+// AuthHelper
 builder.Services.AddSingleton<AuthHelper>();
 
-//Connect to SQl Server database
+// Connect to SQL Server database
 var connectionString = config.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<RepositoryContext>(options =>
@@ -29,35 +30,43 @@ builder.Services.AddDbContext<RepositoryContext>(options =>
             errorNumbersToAdd: null);        // SQL error numbers to trigger a retry
     }));
 
+// Configure repository wrapper
 builder.Services.ConfigureRepositoryWrapper();
+
+// AutoMapper configuration
 builder.Services.AddAutoMapper(typeof(Program));
 
-var configuration = builder.Configuration;
-
-
-//JWT configuration
+// JWT configuration
 builder.Services.AddAuthentication(cfg => {
     cfg.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     cfg.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     cfg.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(x => {
+})
+.AddJwtBearer(x => {
     x.RequireHttpsMetadata = false;
-    x.SaveToken = false;
+    x.SaveToken = true; // SaveToken to true in case you want to reuse the token in subsequent requests.
     x.TokenValidationParameters = new TokenValidationParameters {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8
-                .GetBytes(configuration["Auth:JWT_Secret"])
-        ),
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ClockSkew = TimeSpan.Zero
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Auth:JWT_Secret"])),
+        ValidateIssuer = false, // Change to true if you want to validate the issuer
+        ValidateAudience = false, // Change to true if you want to validate the audience
+        ValidateLifetime = true, // Ensure token hasn't expired
+        ClockSkew = TimeSpan.Zero // Optional: Set ClockSkew to zero to avoid time drift issues
     };
 });
 
-
-
 builder.Services.AddControllers();
+
+// CORS Configuration (Optional, depending on Angular)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp", builder =>
+    {
+        builder.WithOrigins("http://localhost:4200") // Angular's development server
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
@@ -68,35 +77,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseAuthentication();
+// Enforce HTTPS in production
+app.UseHttpsRedirection();
 
-//app.UseHttpsRedirection();
+// Use CORS if needed
+app.UseCors("AllowAngularApp");
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
-
+// Authentication and Authorization
+app.UseAuthentication(); // Ensure this is before UseAuthorization
 app.UseAuthorization();
+
 app.MapControllers();
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

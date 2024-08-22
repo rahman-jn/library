@@ -3,6 +3,11 @@ using Entities.DataTransferObjects;
 using libraryapi.Entities.Models;
 using libraryapi.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+
 
 
 namespace libraryapi.Repositories;
