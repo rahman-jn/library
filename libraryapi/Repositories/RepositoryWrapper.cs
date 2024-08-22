@@ -11,6 +11,7 @@ public class RepositoryWrapper : IRepositoryWrapper
     private IAuthRepositiry _auth;
     public ICategoryRepository _category;
     public IAuthorRepository _author;
+    public IBookRepository _book;
 
     public RepositoryWrapper(RepositoryContext repositoryContext)
     {
@@ -78,6 +79,19 @@ public class RepositoryWrapper : IRepositoryWrapper
             }
 
             return _category;
+        }
+    }
+    
+    public IBookRepository Book
+    {
+        get
+        {
+            if (_book == null)
+            {
+                _book = new BookRepository(_repoContext);
+            }
+
+            return _book;
         }
     }
 

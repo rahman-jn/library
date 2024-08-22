@@ -14,6 +14,8 @@ public class Author
 
     public bool Active { get; set; } = true;
 
+    public ICollection<Book> Books { get; set; }
+
     public string FullName
     {
         get

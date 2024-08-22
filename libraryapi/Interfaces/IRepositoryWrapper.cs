@@ -7,5 +7,6 @@ public interface IRepositoryWrapper
     IAuthRepositiry Auth { get; }
     ICategoryRepository Category { get; }
     IAuthorRepository Author { get; }
+    IBookRepository Book { get; }
     void Save();
 }
