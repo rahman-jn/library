@@ -17,5 +17,5 @@ public class UserBook
     public Guid BookId { get; set; }
     
     public DateTime ReservedDate { get; set; }
-    public DateTime ExpirationdDate { get; set; }
+    public DateTime ExpirationDate { get; set; }
 }

@@ -21,21 +21,28 @@ public class SecurityMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
+        
         var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+        var protectedPaths = _configuration.GetSection("Routes:Protected").Get<string[]>();
 
-        if (token != null)
+
+        if (token != null || protectedPaths.Any(path => context.Request.Path.StartsWithSegments("/"+path)))
         {
             try
             {
                 // Validate the token
                 var claimsPrincipal = ValidateToken(token);
                 context.User = claimsPrincipal;
+                if (!context.User.Identity.IsAuthenticated)
+                {
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    await context.Response.WriteAsync("Login to site to access this method.");
+                    return;
+                }
 
                 // Check if the request path requires admin role
                 if (context.Request.Path.StartsWithSegments("/api/admin"))
                 {
-                    if (context.User.Identity.IsAuthenticated)
-                    {
                         var roleIdClaim = context.User.Claims.FirstOrDefault(c => c.Type == "RoleId");
                         if (roleIdClaim != null && int.TryParse(roleIdClaim.Value, out int roleId))
                         {
@@ -46,7 +53,6 @@ public class SecurityMiddleware
                                 return;
                             }
                         }
-                    }
                 }
             }
             catch

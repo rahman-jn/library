@@ -36,7 +36,7 @@ public class BookController : Controller
         try
         {
             book.Id = Guid.NewGuid();
-             _repository.Book.CreateBook(book);
+            _repository.Book.CreateBook(book);
             _repository.Save();
             return CreatedAtRoute("BookById", new {bookId = book.Id}, book);
         }
