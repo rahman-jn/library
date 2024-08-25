@@ -24,9 +24,14 @@ public class SecurityMiddleware
         
         var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
         var protectedPaths = _configuration.GetSection("Routes:Protected").Get<string[]>();
+        var requestMethod = context.Request.Method;
+        var isProtected = (context.Request.Method == HttpMethods.Put ||
+                           protectedPaths.Any(path => context.Request.Path.StartsWithSegments("/" + path)))
+            ? true
+            : false;
 
 
-        if (token != null || protectedPaths.Any(path => context.Request.Path.StartsWithSegments("/"+path)))
+        if (token != null || isProtected)
         {
             try
             {

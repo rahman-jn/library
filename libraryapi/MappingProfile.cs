@@ -16,5 +16,8 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.ReservedBooksCount,
                 opt => opt.MapFrom(src => src.UserBooks.Count)
                 );
+        CreateMap<Book, Book>()
+            .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            
     }
 }

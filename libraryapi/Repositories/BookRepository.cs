@@ -2,6 +2,8 @@ using Entities;
 using Entities.DataTransferObjects;
 using libraryapi.Entities.Models;
 using libraryapi.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace libraryapi.Repositories;
 
@@ -12,17 +14,20 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
         
     }
 
-    public Book GetBookById(int bookId)
+    public Book GetBookById(Guid id)
     {
         var query = FindByCondition(
-            book => book.Id.Equals(bookId) && book.Active.Equals(1),
+            book => book.Id.Equals(id),
             book => new Book
             {
+                Id = book.Id,
                 Name = book.Name,
                 Isbn = book.Isbn,
-                Category = book.Category,
-                Author = book.Author,
-                PublishYear = book.PublishYear
+                CategoryId = book.CategoryId,
+                AuthorId = book.AuthorId,
+                PublishYear = book.PublishYear,
+                Status = book.Status,
+                Active = book.Active
             }
             ); 
             
@@ -32,5 +37,10 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
     public void CreateBook(Book book)
     {
         Create(book);
+    }
+
+    public void UpdateBook(Book book)
+    {
+        Update(book);
     }
 }

@@ -24,6 +24,8 @@ public class Book
     [Required]
     public Guid AuthorId { get; set; }
     public Author? Author { get; set; }
+    
+    public int Status { get; set; }//0:reserved, 1: free
 
     public bool Active { get; set; } = true;
 }

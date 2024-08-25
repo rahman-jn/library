@@ -6,6 +6,7 @@ namespace libraryapi.Interfaces;
 
 public interface IBookRepository : IRepositoryBase<Book>
 {
-    Book GetBookById(int bookId);
+    Book GetBookById(Guid bookId);
     void CreateBook(Book book);
+    void UpdateBook(Book book);
 }
