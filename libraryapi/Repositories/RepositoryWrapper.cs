@@ -13,6 +13,7 @@ public class RepositoryWrapper : IRepositoryWrapper
     public IAuthorRepository _author;
     public IBookRepository _book;
     public IHttpContextAccessor _httpContextAccessor;
+    public IUserBookRepository _userBook;
 
     public RepositoryWrapper(RepositoryContext repositoryContext)
     {
@@ -51,7 +52,7 @@ public class RepositoryWrapper : IRepositoryWrapper
         {
             if (_auth == null)
             {
-                _auth = new AuthRepository(_repoContext, _httpContextAccessor);
+                _auth = new AuthRepository(_repoContext);
             }
             return _auth;
         }
@@ -93,6 +94,18 @@ public class RepositoryWrapper : IRepositoryWrapper
             }
 
             return _book;
+        }
+    }
+    public IUserBookRepository UserBook
+    {
+        get
+        {
+            if (_userBook == null)
+            {
+                _userBook = new UserBookRepository(_repoContext);
+            }
+
+            return _userBook;
         }
     }
 

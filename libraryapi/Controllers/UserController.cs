@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace libraryapi.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/admin/[controller]")]
 [ApiController]
 
 public class UserController : Controller
@@ -62,12 +62,6 @@ public class UserController : Controller
     [HttpGet]
     public IActionResult GetAllUsers()
     {
-        var authUser = _repository.Auth.AuthenticateUser();
-        
-        //Only admin role users has access to users list
-        if(authUser.RoleId != 2)
-            return Forbid();
-
         IEnumerable<User> users =  _repository.User.GetAllUsers();
         return Ok(users);
     }

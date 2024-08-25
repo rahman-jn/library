@@ -8,5 +8,6 @@ public interface IRepositoryWrapper
     ICategoryRepository Category { get; }
     IAuthorRepository Author { get; }
     IBookRepository Book { get; }
+    IUserBookRepository UserBook { get; }
     void Save();
 }

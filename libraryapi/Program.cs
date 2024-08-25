@@ -78,6 +78,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<SecurityMiddleware>();
+
 // Enforce HTTPS in production
 app.UseHttpsRedirection();
 
@@ -85,6 +87,7 @@ app.UseHttpsRedirection();
 app.UseCors("AllowAngularApp");
 
 // Authentication and Authorization
+app.UseRouting();
 app.UseAuthentication(); // Ensure this is before UseAuthorization
 app.UseAuthorization();
 

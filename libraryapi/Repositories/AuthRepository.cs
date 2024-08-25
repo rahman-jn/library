@@ -12,9 +12,9 @@ public class AuthRepository :  RepositoryBase<Auth>, IAuthRepositiry
 {
     private readonly ClaimsPrincipal _user;
 
-    public AuthRepository(RepositoryContext repositoryContext, IHttpContextAccessor httpContextAccessor) : base(repositoryContext)
+    public AuthRepository(RepositoryContext repositoryContext) : base(repositoryContext)
     {
-        _user = httpContextAccessor.HttpContext?.User;
+        /*_user = httpContextAccessor.HttpContext?.User;*/
     }
     
     public UserDto GetUserAccount(User user, User foundUser)
@@ -52,7 +52,7 @@ public class AuthRepository :  RepositoryBase<Auth>, IAuthRepositiry
     }
 
     //Get Jwt token, validate it and ectract authenticated user info from token.
-    public UserDto AuthenticateUser()
+    /*public UserDto AuthenticateUser()
     {
         var roleIdClaim = _user?.FindFirst("RoleId")?.Value;
         var userIdClaim = _user?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -69,5 +69,5 @@ public class AuthRepository :  RepositoryBase<Auth>, IAuthRepositiry
             Email = email,
             RoleId = roleId,
         };
-    }
+    }*/
 }
