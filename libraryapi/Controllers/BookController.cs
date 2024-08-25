@@ -18,6 +18,13 @@ public class BookController : Controller
 
     }
     
+    [HttpGet]
+    public IActionResult GetAllBooks()
+    {
+        IEnumerable<Book> books = _repository.Book.GetAllBooks();
+        return Ok(books);
+    }
+    
     [HttpGet("{id}", Name = "BookById")]
     public IActionResult GetBookById(Guid id)
     {

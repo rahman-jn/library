@@ -14,6 +14,10 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
         
     }
 
+    public IEnumerable<Book> GetAllBooks()
+    {
+        return FindAll().ToList();
+    }
     public Book GetBookById(Guid id)
     {
         var query = FindByCondition(
