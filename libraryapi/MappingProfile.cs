@@ -14,10 +14,11 @@ public class MappingProfile : Profile
         CreateMap< UserDtoForCreation, User>();
         CreateMap<User, UserListDto>()
             .ForMember(dest => dest.ReservedBooksCount,
-                opt => opt.MapFrom(src => src.UserBooks.Count)
-                );
+                opt => 
+                    opt.MapFrom(src => src.UserBooks.Count(book => book.Status == 0)));
         CreateMap<Book, Book>()
-            .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            .ForAllMembers(opts =>
+                opts.Condition((src, dest, srcMember) => srcMember != null));
             
     }
 }

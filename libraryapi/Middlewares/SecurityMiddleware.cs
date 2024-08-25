@@ -1,15 +1,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 public class SecurityMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly string _adminRole = "admin";
     private  static IConfiguration _configuration;
 
     public SecurityMiddleware(RequestDelegate next, IConfiguration configuration)

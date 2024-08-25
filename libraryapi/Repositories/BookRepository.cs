@@ -34,7 +34,8 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
                 Active = book.Active
             }
             ); 
-            
+        string sql = query.ToQueryString();
+        Console.WriteLine(sql);  
         return query.FirstOrDefault();
     }
     
