@@ -61,9 +61,10 @@ public class UserController : Controller
 
     [HttpGet]
     public IActionResult GetAllUsers()
-    {
+    { 
         IEnumerable<User> users =  _repository.User.GetAllUsers();
-        return Ok(users);
+        IEnumerable<UserListDto> userListDtos = _mapper.Map<IEnumerable<UserListDto>>(users);
+        return Ok(userListDtos);
     }
     
 }

@@ -18,6 +18,12 @@ public class UserBookController : Controller
         _repository = repository;
     }
 
+    [HttpGet]
+    public IActionResult GetUsersList()
+    {
+        IEnumerable<User> users =  _repository.User.GetAllUsers();
+        return Ok(users);
+    }
     [HttpPost("reserve")]
     public IActionResult ReserveBook(Guid bookId)
     {

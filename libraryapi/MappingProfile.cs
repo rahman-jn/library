@@ -12,5 +12,9 @@ public class MappingProfile : Profile
         CreateMap<UserDto, User>();
         CreateMap< UserDtoForLogin, User>();
         CreateMap< UserDtoForCreation, User>();
+        CreateMap<User, UserListDto>()
+            .ForMember(dest => dest.ReservedBooksCount,
+                opt => opt.MapFrom(src => src.UserBooks.Count)
+                );
     }
 }

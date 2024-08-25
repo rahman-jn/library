@@ -18,4 +18,5 @@ public class UserBook
     
     public DateTime ReservedDate { get; set; }
     public DateTime ExpirationDate { get; set; }
+    public bool Active { get; set; } = true;
 }
