@@ -12,7 +12,6 @@ public class Category
     [Required(ErrorMessage = "Category name is required.")]
     public string Name { get; set; }
     
-    public ICollection<Book> Books { get; set; }
 
     public bool Active { get; set; } = true;
 }

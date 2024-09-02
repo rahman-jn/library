@@ -71,3 +71,7 @@ F:\projects\netcore\library\libraryapi\obj\Debug\net8.0\libraryapi.pdb
 F:\projects\netcore\library\libraryapi\obj\Debug\net8.0\libraryapi.genruntimeconfig.cache
 F:\projects\netcore\library\libraryapi\obj\Debug\net8.0\ref\libraryapi.dll
 F:\projects\netcore\library\libraryapi\bin\Debug\net8.0\AutoMapper.dll
+F:\projects\netcore\library\libraryapi\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+F:\projects\netcore\library\libraryapi\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+F:\projects\netcore\library\libraryapi\bin\Debug\net8.0\Newtonsoft.Json.dll
+F:\projects\netcore\library\libraryapi\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll

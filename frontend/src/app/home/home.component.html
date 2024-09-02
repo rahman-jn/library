@@ -13,9 +13,9 @@
     <tbody>
     <tr *ngFor="let book of books ">
       <td>{{ book.name }}</td>
-      <td>{{ book.author }}</td>
+      <td>{{ book.author.fullName }}</td>
       <td>{{ book.publishYear }}</td>
-      <td>{{ book.category }}</td>
+      <td>{{ book.category.name }}</td>
       <td>
         <button class="btn btn-primary" >Reserve</button>
       </td>
