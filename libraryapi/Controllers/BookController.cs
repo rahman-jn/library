@@ -19,9 +19,9 @@ public class BookController : Controller
     }
     
     [HttpGet]
-    public IActionResult GetAllBooks()
+    public IActionResult GetAllBooks(bool checkReserveStatus = false)
     {
-        IEnumerable<Book> books = _repository.Book.GetAllBooks();
+        IEnumerable<Book> books = _repository.Book.GetAllBooks(checkReserveStatus);
         return Ok(books);
     }
     

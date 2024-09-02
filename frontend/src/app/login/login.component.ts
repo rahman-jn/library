@@ -20,7 +20,9 @@ import {catchError} from "rxjs/operators";
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {
+
+  }
   private baseUrl = 'http://localhost:5048/api';
   http = inject(HttpClient);
 
@@ -31,19 +33,8 @@ export class LoginComponent {
         password: form.value.password
       };
 
-      this.http.post(`${this.baseUrl}/auth`, user).subscribe(
-        response => {
-          localStorage.setItem('user', JSON.stringify(response));
-          console.log('Login successful:', response);
-          // Handle the successful response
-        },
-        error => {
-          console.error('Login failed:', error);
-          // Handle the error response
-        }
-      );
-    } else {
-      console.error('Form is invalid');
+      this.router.navigate(['/home']);
+
     }
   }
 

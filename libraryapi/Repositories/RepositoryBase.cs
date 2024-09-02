@@ -14,9 +14,19 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T: class
         RepositoryContext = repositoryContext;
     }
     
-    public IQueryable<T> FindAll(params Expression<Func<T, object>>[] includes)
+    public IQueryable<T> FindAll(
+        Expression<Func<T, bool>> condition = null, 
+        params Expression<Func<T, object>>[] includes)
     {
+        // Start with the base query
         var query = RepositoryContext.Set<T>().AsNoTracking();
+
+        // Apply the condition if provided
+        if (condition != null)
+        {
+            query = query.Where(condition);
+        }
+
         // Apply each include expression to the query
         if (includes != null)
         {
@@ -28,6 +38,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T: class
 
         return query;
     }
+
 
     public IQueryable<TResult> FindByCondition<TResult>(
         Expression<Func<T, bool>> expression,

@@ -14,8 +14,11 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
         
     }
 
-    public IEnumerable<Book> GetAllBooks()
+    public IEnumerable<Book> GetAllBooks(bool checkReserveStatus)
     {
+        if (checkReserveStatus)
+            return FindAll(book => book.Status.Equals(1)).ToList();
+
         return FindAll().ToList();
     }
     public Book GetBookById(Guid id)

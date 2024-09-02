@@ -57,7 +57,7 @@ public class UserRepository : RepositoryBase<User> , IUserRepository
     }
     public IEnumerable<User> GetAllUsers()
     {
-        return FindAll(usr => usr.UserBooks).ToList();
+        return FindAll(null, usr => usr.UserBooks).ToList();
     }
 
     public void CreateUser(User user)
