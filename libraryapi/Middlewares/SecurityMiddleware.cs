@@ -28,7 +28,7 @@ public class SecurityMiddleware
             : false;
 
 
-        if (token != null || isProtected)
+        if (token != null || (isProtected && token != null) )
         {
             try
             {

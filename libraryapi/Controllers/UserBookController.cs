@@ -25,7 +25,7 @@ public class UserBookController : Controller
         return Ok(users);
     }
     [HttpPost("reserveorreturn")]
-    public IActionResult ReserveOrReturnBook(Guid bookId, int status)
+    public IActionResult ReserveOrReturnBook([FromBody] Book book)
     {
         try
         {
@@ -35,24 +35,24 @@ public class UserBookController : Controller
 
                         
             //Change book status from free to reserved
-            var book = _repository.Book.GetBookById(bookId);
+            var bookEntity = _repository.Book.GetBookById(book.Id);
             
             //If book is reserved can't be reserved again, same for free books
-            if (status == book.Status)
+            if (book.Status == bookEntity.Status)
                 return BadRequest("This action is not allowed");
             
-            book.Status = status;
-            _repository.Book.UpdateBook(book);
+            bookEntity.Status = book.Status;
+            _repository.Book.UpdateBook(bookEntity);
             _repository.Save();
             
             var userBook = new UserBook
             {
                 Id = Guid.NewGuid(),
                 UserId =  Guid.TryParse(userIdClaim, out Guid claimedUserId) ? claimedUserId : Guid.Empty,
-                BookId = bookId,
+                BookId = book.Id,
                 ReservedDate = DateTime.Now,
                 ExpirationDate = DateTime.Now.AddMonths(deadline),
-                Status = status
+                Status = book.Status
             };
             _repository.UserBook.Create(userBook);
             _repository.Save();

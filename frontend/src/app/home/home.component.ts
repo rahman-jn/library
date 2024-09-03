@@ -18,6 +18,7 @@ import {HttpClient} from "@angular/common/http";
 export class HomeComponent {
 
   books: any[] = [];
+  reservedBook: object = {};
 
   private baseUrl = 'http://localhost:5048/api';
   http = inject(HttpClient);
@@ -33,6 +34,17 @@ constructor(private authService:AuthService, private router:Router, private book
     this.bookService.getBooks(true).subscribe(
       (response: any[]) => {
         this.books = response;
+      },
+      error => {
+        console.error('Failed to get books:', error);
+      }
+    );
+  }
+
+  reserveBook(bookId:string){
+    this.bookService.reserveBook(bookId).subscribe(
+      (response) => {
+        this.reservedBook = response;
       },
       error => {
         console.error('Failed to get books:', error);

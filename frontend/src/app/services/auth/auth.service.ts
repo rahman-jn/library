@@ -13,18 +13,21 @@ export class AuthService {
   private baseUrl = 'http://localhost:5048/api';
   http = inject(HttpClient);
 
-  login(user:any){
-    this.http.post(`${this.baseUrl}/auth`, user).subscribe(
-      response => {
-        localStorage.setItem('user', JSON.stringify(response));
-        return response;
-      },
-      error => {
-        console.error('Login failed:', error);
-        // Handle the error response
-      }
-    );
+  login(user: any): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.http.post(`${this.baseUrl}/auth`, user).subscribe(
+        response => {
+          localStorage.setItem('user', JSON.stringify(response));
+          resolve(true);
+        },
+        error => {
+          console.error('Login failed:', error);
+          reject(false);
+        }
+      );
+    });
   }
+
   islogin(){
     var userInfo = localStorage.getItem('user');
     return !!userInfo;

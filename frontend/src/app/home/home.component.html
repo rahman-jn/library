@@ -17,7 +17,7 @@
       <td>{{ book.publishYear }}</td>
       <td>{{ book.category.name }}</td>
       <td>
-        <button class="btn btn-primary" >Reserve</button>
+        <button class="btn btn-primary" (click)="reserveBook(book.id)">Reserve</button>
       </td>
     </tr>
     </tbody>
