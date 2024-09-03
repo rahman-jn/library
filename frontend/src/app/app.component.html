@@ -2,9 +2,9 @@
   <div id="page-content-wrapper" class="flex-grow-1">
     <app-header></app-header>
     <div class="container-fluid mt-3">
+      <app-message [message]="message" [type]="messageType"></app-message>
       <router-outlet></router-outlet>
     </div>
-
   </div>
 </div>
 
