@@ -65,4 +65,12 @@ public class AuthController : Controller
             throw;
         }
     }
+
+    [HttpPost("isLogin")]
+    public bool isLogin()
+    {
+        if (User.Identity.IsAuthenticated)
+            return true;
+        return false;
+    }
 }

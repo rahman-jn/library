@@ -28,8 +28,37 @@ export class AuthService {
     });
   }
 
-  islogin(){
-    var userInfo = localStorage.getItem('user');
-    return !!userInfo;
+  isLogin(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http.post(`${this.baseUrl}/auth/islogin`, '').subscribe(
+        response => {
+          if(response)
+            resolve(true);
+          resolve(false)
+        },
+        error => {
+          console.error('Login failed:', error);
+          reject(false);
+        }
+      );
+    });
   }
+
+
+
+
+  async isAdmin() {
+    if(await this.isLogin()) {
+      console.log("logedin")
+      const userInfoString = localStorage.getItem('user');
+
+      if (userInfoString) {
+        const userInfo = JSON.parse(userInfoString); // Parse the JSON string into an object
+        return userInfo.roleId === 2;
+      }
+    }
+
+    return false;
+  }
+
 }

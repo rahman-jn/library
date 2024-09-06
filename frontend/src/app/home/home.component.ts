@@ -18,12 +18,10 @@ export class HomeComponent {
   books: any[] = [];
   reservedBook: object = {};
 
-  private baseUrl = 'http://localhost:5048/api';
-  http = inject(HttpClient);
   messageService = inject(MessageService);
 
   constructor(private authService: AuthService, private router: Router, private bookService: BookService) {
-    if (!authService.islogin()) {
+    if (!authService.isLogin()) {
       this.router.navigate(['/login']);
     }
   }
