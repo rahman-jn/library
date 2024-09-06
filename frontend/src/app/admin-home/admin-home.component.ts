@@ -17,13 +17,11 @@ import {UserService} from "../services/user/user.service";
 export class AdminHomeComponent {
   users: any[] = [];
   constructor(private authService: AuthService, private router: Router, private userService: UserService) {
-    if (!authService.isAdmin()) {
-      console.log("sfdfsdfdsfs")
-      this.router.navigate(['/home']);
-    }
+
   }
 
   async ngOnInit(): Promise<void> {
+
     try {
       const isAdmin = await this.authService.isAdmin(); // Wait for the async check
 
@@ -40,13 +38,8 @@ export class AdminHomeComponent {
 
 
   getUsers(): void {
-    this.userService.getUsers().subscribe(
-      (response: any[]) => {
-        this.users = response;
-      },
-      error => {
-        console.error('Failed to get users:', error);
-      }
+    this.userService.getUsers().then(
+      users => this.users = users
     );
   }
 

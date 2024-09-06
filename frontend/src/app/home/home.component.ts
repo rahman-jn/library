@@ -21,12 +21,12 @@ export class HomeComponent {
   messageService = inject(MessageService);
 
   constructor(private authService: AuthService, private router: Router, private bookService: BookService) {
-    if (!authService.isLogin()) {
-      this.router.navigate(['/login']);
-    }
   }
 
   ngOnInit(): void {
+    if (!this.authService.isLogin()) {
+      this.router.navigate(['/login']);
+    }
     this.getAvailableBooks();
   }
 

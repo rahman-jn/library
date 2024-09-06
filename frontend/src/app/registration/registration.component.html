@@ -7,7 +7,7 @@
         type="text"
         id="firstName"
         name="firstName"
-        ngModel
+        [(ngModel)]="user.firstName"
         required
         minlength="2"
         #firstName="ngModel"
@@ -24,7 +24,7 @@
         type="text"
         id="lastName"
         name="lastName"
-        ngModel
+        [(ngModel)]="user.lastName"
         required
         minlength="2"
         #lastName="ngModel"
@@ -41,7 +41,7 @@
         type="email"
         id="email"
         name="email"
-        ngModel
+        [(ngModel)]="user.email"
         required
         email
         #email="ngModel"
@@ -58,7 +58,7 @@
         type="password"
         id="password"
         name="password"
-        ngModel
+        [(ngModel)]="user.password"
         required
         minlength="6"
         #password="ngModel"
@@ -71,6 +71,5 @@
 
     <button type="submit" [disabled]="!registrationForm.valid">Register</button>
     <button type="button" class="btn btn-link" (click)="navigateToLogin()">Login</button>
-
   </form>
 </div>

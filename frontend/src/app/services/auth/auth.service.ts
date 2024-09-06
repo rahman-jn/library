@@ -1,6 +1,5 @@
 import {inject, Injectable} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from "@angular/router";
 
 
@@ -29,8 +28,9 @@ export class AuthService {
   }
 
   isLogin(): Promise<any> {
+    const options = this.getOptions();
     return new Promise((resolve, reject) => {
-      this.http.post(`${this.baseUrl}/auth/islogin`, '').subscribe(
+      this.http.post(`${this.baseUrl}/auth/islogin`, '', options).subscribe(
         response => {
           if(response)
             resolve(true);
@@ -45,11 +45,16 @@ export class AuthService {
   }
 
 
+getOptions(){
+  const user = localStorage.getItem('user');
+  const token = user? JSON.parse(user).token : ''
 
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  return {headers: headers};
+}
 
   async isAdmin() {
     if(await this.isLogin()) {
-      console.log("logedin")
       const userInfoString = localStorage.getItem('user');
 
       if (userInfoString) {

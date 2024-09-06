@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
 import { Router } from '@angular/router';
+import {User} from "../models/User";
+import {HttpClient} from "@angular/common/http";
+import {UserService} from "../services/user/user.service";
 
 
 @Component({
@@ -16,12 +19,23 @@ import { Router } from '@angular/router';
 })
 export class RegistrationComponent {
 
-  constructor(private router: Router) { }
+  user: User = new User(); // Create a new user object
+
+  constructor(private http: HttpClient, private router: Router, private userService:UserService) {}
 
   onSubmit() {
-    // For now, we just log the form data to the console
-    console.log('Form submitted');
+    console.log(this.user)
+    this.userService.createUser(this.user).subscribe(
+      response => {
+        console.log('User registered successfully', response);
+        this.router.navigate(['/admin']);
+      },
+      error => {
+        console.error('Error registering user', error);
+      }
+    );
   }
+
 
   navigateToLogin() {
     this.router.navigate(['/login']);

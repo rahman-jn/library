@@ -43,7 +43,7 @@ public class SecurityMiddleware
                 }
 
                 // Check if the request path requires admin role
-                if (context.Request.Path.StartsWithSegments("/api/admin"))
+                if (context.Request.Path.StartsWithSegments("/admin"))
                 {
                         var roleIdClaim = context.User.Claims.FirstOrDefault(c => c.Type == "RoleId");
                         if (roleIdClaim != null && int.TryParse(roleIdClaim.Value, out int roleId))

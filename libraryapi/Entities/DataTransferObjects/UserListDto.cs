@@ -10,6 +10,8 @@ public class UserListDto
     
     [EmailAddress]
     public string Email{ get; set; }
+
+    public DateTime CreatedAt { get; set; }
     
     public int ReservedBooksCount{ get; set; }
 }

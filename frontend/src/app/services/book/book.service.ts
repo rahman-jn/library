@@ -3,13 +3,14 @@ import {Router} from "@angular/router";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {json} from "express";
+import {AuthService} from "../auth/auth.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookService {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,private authService:AuthService) {}
   private baseUrl = 'http://localhost:5048/api';
   http = inject(HttpClient);
 
@@ -20,14 +21,9 @@ export class BookService {
   }
 
   reserveBook(bookId:string){
-
-    const user = localStorage.getItem('user');
-    const token = user? JSON.parse(user).token : ''
-
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     // Create the request body and options
     const body = { id: bookId, status: 0 };
-    const options = { headers: headers };
+    const options = this.authService.getOptions();
 
     return this.http.post(`${this.baseUrl}/userbook/reserveorreturn`, body, options);
 

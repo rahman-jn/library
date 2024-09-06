@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace libraryapi.Controllers;
 
-[Route("api/admin/[controller]")]
+[Route("admin/[controller]")]
 [ApiController]
 
 public class UserController : Controller
@@ -59,12 +59,13 @@ public class UserController : Controller
 
     }
 
-    [HttpGet]
+    [HttpGet("list")]
     public IActionResult GetAllUsers()
     { 
         IEnumerable<User> users =  _repository.User.GetAllUsers();
         IEnumerable<UserListDto> userListDtos = _mapper.Map<IEnumerable<UserListDto>>(users);
         return Ok(userListDtos);
     }
+
     
 }
