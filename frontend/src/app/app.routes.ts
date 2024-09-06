@@ -7,6 +7,10 @@ import {AdminHomeComponent} from "./admin-home/admin-home.component";
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent },
+  {
+    path: 'edit-user/:id',
+    component: RegistrationComponent
+  },
   { path: 'home', component: HomeComponent },
   { path: 'admin', component: AdminHomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },

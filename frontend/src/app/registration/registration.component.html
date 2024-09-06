@@ -2,6 +2,7 @@
   <h2>User Registration</h2>
   <form (ngSubmit)="onSubmit()" #registrationForm="ngForm">
     <div class="form-group">
+      <input type="hidden" name="id" [(ngModel)]="user.id">
       <label for="firstName">First Name</label>
       <input
         type="text"
@@ -69,7 +70,23 @@
       </div>
     </div>
 
-    <button type="submit" [disabled]="!registrationForm.valid">Register</button>
+    <div class="form-group">
+      <label for="roleId">Role</label>
+      <select
+        id="roleId"
+        name="roleId"
+        [(ngModel)]="user.roleId"
+        required
+      >
+        <option [value]="1">User</option>
+        <option [value]="2">Admin</option>
+      </select>
+    </div>
+
+    <button type="submit" [disabled]="!registrationForm.valid">
+      {{ isEditMode ? 'Update' : 'Register' }}
+    </button><!--
     <button type="button" class="btn btn-link" (click)="navigateToLogin()">Login</button>
+-->
   </form>
 </div>

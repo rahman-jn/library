@@ -23,7 +23,7 @@ public class UserController : Controller
     }
 
     [HttpGet("{userId}", Name = "UserById")]
-    public IActionResult GetUserById(int userId)
+    public IActionResult GetUserById(Guid userId)
     {
         try
         {
@@ -67,5 +67,22 @@ public class UserController : Controller
         return Ok(userListDtos);
     }
 
-    
+    [HttpPut("{id}")]
+
+    public IActionResult UpdateUser(Guid id, [FromBody] User user)
+    {
+        try
+        {
+            var userEntity = _repository.User.GetUserById(id);
+            _mapper.Map(user, userEntity);
+            _repository.User.UpdateUser(userEntity);
+            _repository.Save();
+            return CreatedAtRoute("UserById", new { userId = userEntity.Id }, userEntity);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }

@@ -8,6 +8,7 @@ public interface IUserRepository:IRepositoryBase<User>
     IEnumerable<User> GetAllUsers();
 
     void CreateUser(User user);
-    UserDto GetUserById(int userId);
+    void UpdateUser(User user);
+    User GetUserById(Guid userId);
     User GetUserByEmail(string email);
 }

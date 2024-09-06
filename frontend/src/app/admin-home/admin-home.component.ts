@@ -43,8 +43,9 @@ export class AdminHomeComponent {
     );
   }
 
-  editUser(userId:string){
-
+  editUser(userId: string) {
+    // Navigate to the registration (edit) page with the userId in the route
+    this.router.navigate(['/edit-user', userId]);
   }
 
   deleteUser(userId:string){

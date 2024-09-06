@@ -4,7 +4,7 @@ namespace Entities.DataTransferObjects;
 
 public class UserListDto
 {
-    public Guid UserId;
+    public Guid Id { get; set; }
     public string FirstName{ get; set; }
     public string LastName { get; set; }
     

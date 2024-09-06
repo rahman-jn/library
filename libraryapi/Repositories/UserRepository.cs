@@ -19,12 +19,13 @@ public class UserRepository : RepositoryBase<User> , IUserRepository
         
     }
 
-    public UserDto GetUserById(int userId)
+    public User GetUserById(Guid userId)
     {
         var query = FindByCondition(
             usr => usr.Id.Equals(userId),
-            usr => new UserDto
+            usr => new User
             {
+                Id = usr.Id,
                 Email = usr.Email,
                 FirstName = usr.FirstName,
                 LastName = usr.LastName,
@@ -65,4 +66,8 @@ public class UserRepository : RepositoryBase<User> , IUserRepository
         Create(user);
     }
     
+    public void UpdateUser(User user)
+    {
+        Update(user);
+    }
 }
