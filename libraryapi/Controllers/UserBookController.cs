@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Entities.DataTransferObjects;
 using libraryapi.Entities.Models;
 using libraryapi.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -65,5 +66,11 @@ public class UserBookController : Controller
             Console.WriteLine(e);
             throw;
         }
+    }
+
+    [HttpGet("activities/{id}")]
+    public IEnumerable<UserBooksListDto> UserActivities(Guid id)
+    {
+        return _repository.UserBook.GetUserActivities(id);
     }
 }

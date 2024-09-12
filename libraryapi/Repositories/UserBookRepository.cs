@@ -33,4 +33,22 @@ public class UserBookRepository :  RepositoryBase<UserBook>, IUserBookRepository
             );
         return query.Count();
     }
+
+    public IEnumerable<UserBooksListDto> GetUserActivities(Guid userId)
+    {
+        var query = FindByCondition(
+                usrBook => usrBook.UserId.Equals(userId),
+                usrBook => new UserBooksListDto
+                {
+                    Id = usrBook.Id,
+                    FirstName = usrBook.User.FirstName,
+                    LastName = usrBook.User.LastName,
+                    BookId = usrBook.BookId,
+                    BookName = usrBook.Book.Name,
+                    ReserveDate = usrBook.ReservedDate,
+                    ExpirationDate = usrBook.ExpirationDate
+                } 
+            );
+        return query.ToList();
+    }
 }

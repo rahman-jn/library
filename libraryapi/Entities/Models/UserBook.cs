@@ -21,4 +21,6 @@ public class UserBook
 
     public int Status { get; set; } = 0;
     public bool Active { get; set; } = true;
+    public User? User { get; set; }
+    public Book? Book { get; set; }
 }

@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AuthService} from "../auth/auth.service";
 import {User} from "../../models/User";
+import {UserBook} from "../../models/UserBook";
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +46,11 @@ export class UserService {
 
   updateUser(user: User): Observable<any> {
     return this.http.put(`${this.baseUrl}/admin/user/${user.id}`, user);
+  }
+
+  getUserActivities(id: string): Observable<UserBook[]> {
+    const options = this.authService.getOptions();
+    return this.http.get<UserBook[]>(`${this.baseUrl}/api/userbook/activities/${id}`, options); // Use <User> to cast the response type
   }
 
 }

@@ -23,12 +23,14 @@ export class AdminHomeComponent {
   async ngOnInit(): Promise<void> {
 
     try {
-      const isAdmin = await this.authService.isAdmin(); // Wait for the async check
-
-      if (!isAdmin) {
-        console.log("User is not an admin, redirecting to home...");
-        this.router.navigate(['/home']); // Navigate if the user is not an admin
+      const isAdmin = await this.authService.isAdmin().then(response => {
+        if (!response) {
+          console.log("User is not an admin, redirecting to home...");
+          this.router.navigate(['/home']);
+        }
       }
+    )
+
     } catch (error) {
       console.error('Error checking admin status:', error);
       // Handle errors, possibly redirecting to an error page

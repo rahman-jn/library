@@ -31,4 +31,6 @@ public class Book
     public int Status { get; set; }//0:reserved, 1: free
 
     public bool Active { get; set; } = true;
+    public ICollection<UserBook>? UserBooks { get; set; }
+
 }
