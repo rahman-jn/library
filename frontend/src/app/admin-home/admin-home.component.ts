@@ -50,10 +50,8 @@ export class AdminHomeComponent {
     this.router.navigate(['/edit-user', userId]);
   }
 
-  deleteUser(userId:string){
-
-  }
   activities(userId:string){
+    this.router.navigate(['/activities', userId]);
 
   }
 }

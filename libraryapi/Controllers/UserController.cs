@@ -73,6 +73,10 @@ public class UserController : Controller
     {
         try
         {
+            if(!string.IsNullOrEmpty(user.Password))
+            {
+                user.Password = AuthHelper.Hash(user.Password);
+            }
             var userEntity = _repository.User.GetUserById(id);
             _mapper.Map(user, userEntity);
             _repository.User.UpdateUser(userEntity);
